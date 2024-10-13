@@ -13,10 +13,15 @@ import random,datetime
 random.seed(datetime.datetime.now().timestamp())
 
 def getLinks(articleUrl):
-    html=urlopen("http://en.wikipedia.org{}".format(articleUrl))
-    bs=BeautifulSoup(html,"html.parser")
-    
-    return bs.find("div",{'id':'bodyContent'}).find_all('a',href=re.compile('^(/wiki/)((?!:).)*$'))
+    try:
+        
+        html=urlopen("http://en.wikipedia.org{}".format(articleUrl))
+        bs=BeautifulSoup(html,"html.parser")
+        
+        return bs.find("div",{'id':'bodyContent'}).find_all('a',href=re.compile('^(/wiki/)((?!:).)*$'))
+    except Exception as e:
+        print(f"An exception has occured:{e}")
+        return []
 
 
 links=getLinks('/wiki/Kevin_Bacon')
